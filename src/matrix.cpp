@@ -37,7 +37,9 @@ Matrix & Matrix::operator=(Matrix&& other) noexcept {
 }
 
 Matrix Matrix::operator+(const Matrix& other) const {
-    assert(rows == other.rows && cols == other.cols);
+    if (rows != other.rows || cols != other.cols) {
+        throw std::runtime_error("Matrix::operator+: matrix dimensions do not match");
+    }
 
     Matrix result(rows, cols);
 
@@ -51,7 +53,9 @@ Matrix Matrix::operator+(const Matrix& other) const {
 }
 
 Matrix& Matrix::operator+=(const Matrix& other) {
-    assert(rows == other.rows && cols == other.cols);
+    if (rows != other.rows || cols != other.cols) {
+        throw std::runtime_error("Matrix::operator+=: matrix dimensions do not match");
+    }
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
@@ -63,10 +67,12 @@ Matrix& Matrix::operator+=(const Matrix& other) {
 }
 
 Matrix Matrix::operator*(const Matrix& other) const {
-    assert(cols == other.rows);
+    if (cols != other.rows) {
+        throw std::runtime_error("Matrix::operator*: invalid matrix dimensions");
+    }
 
     Matrix result(rows, other.cols);
-    int n = cols;
+    const int n = cols;
 
     for (int i = 0; i < result.rows; ++i) {
         for (int j = 0; j < result.cols; ++j) {
@@ -81,12 +87,23 @@ Matrix Matrix::operator*(const Matrix& other) const {
 }
 
 float Matrix::operator()(int row, int col) const {
+    if (row < 0 || row >= rows) {
+        throw std::runtime_error("Matrix::operator(): row index out of range");
+    }
+    if (col < 0 || col >= cols) {
+        throw std::runtime_error("Matrix::operator(): column index out of range");
+    }
     assert(row >= 0 && row < rows && col >= 0 && col < cols);
     return data[row * cols + col];
 }
 
 float& Matrix::operator()(int row, int col) {
-    assert(row >= 0 && row < rows && col >= 0 && col < cols);
+    if (row < 0 || row >= rows) {
+        throw std::runtime_error("Matrix::operator(): row index out of range");
+    }
+    if (col < 0 || col >= cols) {
+        throw std::runtime_error("Matrix::operator(): column index out of range");
+    }
     return data[row * cols + col];
 }
 

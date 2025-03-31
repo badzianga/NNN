@@ -148,6 +148,20 @@ TEST(test_AdditionOperatorShouldSumMatrices) {
     TEST_ASSERT_EQUAL_FLOAT(a(0, 1) + b(0, 1), c(0, 1));
 }
 
+TEST(test_AdditionOperatorShouldThrowErrorIfDimensionsDoNotMatch) {
+    Matrix a(1, 2);
+    Matrix b(3, 4);
+
+    try {
+        Matrix c = a + b;
+    } catch (std::runtime_error& e) {
+        // if error is caught, end test with success, else fail at next assertion
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
+}
+
 TEST(test_AdditionAssignmentOperatorShouldAddToMatrix) {
     Matrix a(1, 2);
 
@@ -162,6 +176,20 @@ TEST(test_AdditionAssignmentOperatorShouldAddToMatrix) {
 
     TEST_ASSERT_EQUAL_FLOAT(b(0, 0), a(0, 0));
     TEST_ASSERT_EQUAL_FLOAT(b(0, 1), a(0, 1));
+}
+
+TEST(test_AdditionAssignmentOperatorShouldThrowErrorIfDimensionsDoNotMatch) {
+    Matrix a(1, 2);
+    Matrix b(3, 4);
+
+    try {
+        a += b;
+    } catch (std::runtime_error& e) {
+        // if error is caught, end test with success, else fail at next assertion
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
 }
 
 TEST(test_MultiplicationOperatorShouldMultiplyMatrices) {
@@ -184,6 +212,20 @@ TEST(test_MultiplicationOperatorShouldMultiplyMatrices) {
     TEST_ASSERT_EQUAL_FLOAT(15.f, c(0, 0));
     TEST_ASSERT_EQUAL_FLOAT(18.f, c(0, 1));
     TEST_ASSERT_EQUAL_FLOAT(21.f, c(0, 2));
+}
+
+TEST(test_MultiplicationOperatorShouldThrowErrorIfDimensionsAreInvalid) {
+    Matrix a(1, 2);
+    Matrix b(3, 2);
+
+    try {
+        Matrix c = a * b;
+    } catch (std::runtime_error& e) {
+        // if error is caught, end test with success, else fail at next assertion
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
 }
 
 int main() {
