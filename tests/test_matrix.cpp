@@ -228,6 +228,17 @@ TEST(test_MultiplicationOperatorShouldThrowErrorIfDimensionsAreInvalid) {
     TEST_ASSERT_TRUE(false);
 }
 
+TEST(test_FillMethodShouldFillMatrixWithValue) {
+    Matrix a(2, 4);
+    a.fill(3.34f);
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            TEST_ASSERT_EQUAL_FLOAT(3.34f, a(i, j));
+        }
+    }
+}
+
 int main() {
     return RunTests();
 }

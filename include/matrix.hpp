@@ -22,6 +22,8 @@ public:
     [[nodiscard]] int getRows() const;
     [[nodiscard]] int getCols() const;
 
+    void fill(float value);
+
 private:
     int rows;
     int cols;

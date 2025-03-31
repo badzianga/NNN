@@ -115,4 +115,8 @@ int Matrix::getCols() const {
     return cols;
 }
 
+void Matrix::fill(float value) {
+    std::fill_n(data.get(), rows * cols, value);
+}
+
 } // nnn
