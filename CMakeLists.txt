@@ -3,7 +3,7 @@ project(NNN)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(NNN main.cpp
+add_library(NNN STATIC
         src/matrix.cpp
         include/matrix.hpp
         src/layer.cpp
@@ -11,16 +11,10 @@ add_executable(NNN main.cpp
 )
 target_include_directories(NNN PRIVATE include)
 
-add_executable(test_matrix tests/test_matrix.cpp
-        src/matrix.cpp
-        include/matrix.hpp
-)
+add_executable(test_matrix tests/test_matrix.cpp)
 target_include_directories(test_matrix PRIVATE include external)
+target_link_libraries(test_matrix PRIVATE NNN)
 
-add_executable(test_layer tests/test_layer.cpp
-        src/matrix.cpp
-        include/matrix.hpp
-        src/layer.cpp
-        include/layer.hpp
-)
+add_executable(test_layer tests/test_layer.cpp)
 target_include_directories(test_layer PRIVATE include external)
+target_link_libraries(test_layer PRIVATE NNN)
