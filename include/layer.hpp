@@ -13,6 +13,7 @@ public:
     Layer& operator=(const Layer& other) = delete;
     Layer& operator=(const Layer&& other) = delete;
     [[nodiscard]] Matrix forward(const Matrix& input) const;
+    void randomize(float low, float high);
 
     Matrix weights;
     Matrix biases;

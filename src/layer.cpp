@@ -12,3 +12,8 @@ Layer::Layer(Layer&& other) noexcept : weights(std::move(other.weights)), biases
 Matrix Layer::forward(const Matrix &input) const {
     return ActivationFunction::sigmoid(input * weights + biases);
 }
+
+void Layer::randomize(float low, float high) {
+    weights.randomize(low, high);
+    biases.randomize(low, high);
+}

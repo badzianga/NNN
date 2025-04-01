@@ -23,6 +23,7 @@ public:
     [[nodiscard]] int getCols() const;
 
     void fill(float value);
+    void randomize(float low, float high);
 
 private:
     int rows;

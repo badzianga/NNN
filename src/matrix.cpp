@@ -1,6 +1,8 @@
 #include "matrix.hpp"
 #include <algorithm>
 #include <cassert>
+#include <cstdlib>
+#include <ctime>
 
 namespace nnn {
 
@@ -124,6 +126,16 @@ int Matrix::getCols() const {
 
 void Matrix::fill(float value) {
     std::fill_n(data.get(), rows * cols, value);
+}
+
+void Matrix::randomize(float low, float high) {
+    std::srand(std::time(nullptr));
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            (*this)(i, j) = low + (static_cast<float>(rand()) / RAND_MAX) * (high - low);
+        }
+    }
 }
 
 } // nnn

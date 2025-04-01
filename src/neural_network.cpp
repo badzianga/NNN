@@ -20,4 +20,10 @@ Matrix NeuralNetwork::predict(const Matrix& input) {
     return output;
 }
 
+void NeuralNetwork::randomize(float low, float high) {
+    for (Layer& layer : layers) {
+        layer.randomize(low, high);
+    }
+}
+
 } // nnn
