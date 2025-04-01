@@ -26,6 +26,17 @@ TEST(test_LayerShouldBeConstructedProperly) {
     TEST_ASSERT_EQUAL(4, layer.biases.getCols());
 }
 
+TEST(test_MoveConstructorShouldMoveToNewLayer) {
+    Layer layer(2, 4);
+
+    Layer moved(std::move(layer));
+
+    TEST_ASSERT_EQUAL(2, moved.weights.getRows());
+    TEST_ASSERT_EQUAL(4, moved.weights.getCols());
+    TEST_ASSERT_EQUAL(1, moved.biases.getRows());
+    TEST_ASSERT_EQUAL(4, moved.biases.getCols());
+}
+
 TEST(test_ForwardMethowShouldWorkProperly) {
     Layer layer(2, 4);
     layer.weights.fill(1.f);

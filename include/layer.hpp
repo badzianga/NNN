@@ -8,10 +8,10 @@ class Layer {
 public:
     Layer();
     Layer(int inputSize, int outputSize);
-    Layer(const Layer&) = delete;
-    Layer(const Layer&&) = delete;
-    Layer& operator=(const Layer&) = delete;
-    Layer& operator=(const Layer&&) = delete;
+    Layer(const Layer& other) = delete;
+    Layer(Layer&& other) noexcept;
+    Layer& operator=(const Layer& other) = delete;
+    Layer& operator=(const Layer&& other) = delete;
     [[nodiscard]] Matrix forward(const Matrix& input) const;
 
     Matrix weights;
