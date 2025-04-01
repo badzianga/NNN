@@ -15,7 +15,10 @@ Matrix::Matrix(const Matrix& other) : rows(other.rows), cols(other.cols) {
     std::copy_n(other.data.get(), rows * cols, data.get());
 }
 
-Matrix::Matrix(Matrix&& other) noexcept : rows(other.rows), cols(other.cols), data(std::move(other.data)) {}
+Matrix::Matrix(Matrix&& other) noexcept : rows(other.rows), cols(other.cols), data(std::move(other.data)) {
+    other.rows = 0;
+    other.cols = 0;
+}
 
 Matrix& Matrix::operator=(const Matrix& other) {
     if (this != &other) {
@@ -33,6 +36,10 @@ Matrix & Matrix::operator=(Matrix&& other) noexcept {
     rows = other.rows;
     cols = other.cols;
     data = std::move(other.data);
+
+    other.rows = 0;
+    other.cols = 0;
+
     return *this;
 }
 

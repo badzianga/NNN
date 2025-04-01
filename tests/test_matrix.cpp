@@ -95,9 +95,13 @@ TEST(test_MoveConstructorShouldMoveToNewMatrix) {
 
     TEST_ASSERT_EQUAL(1, moved.getRows());
     TEST_ASSERT_EQUAL(2, moved.getCols());
-
     TEST_ASSERT_EQUAL_FLOAT(1.f, moved(0, 0));
     TEST_ASSERT_EQUAL_FLOAT(2.f, moved(0, 1));
+
+    const auto inspector = reinterpret_cast<MatrixInspector*>(&original);
+    TEST_ASSERT_EQUAL(0, inspector->rows);
+    TEST_ASSERT_EQUAL(0, inspector->cols);
+    TEST_ASSERT_NULL(inspector->data.get());
 }
 
 TEST(test_CopyOperatorShouldCreateExactCopyOfMatrix) {
@@ -126,9 +130,13 @@ TEST(test_MoveOperatorShouldMoveToNewMatrix) {
 
     TEST_ASSERT_EQUAL(1, moved.getRows());
     TEST_ASSERT_EQUAL(2, moved.getCols());
-
     TEST_ASSERT_EQUAL_FLOAT(1.f, moved(0, 0));
     TEST_ASSERT_EQUAL_FLOAT(2.f, moved(0, 1));
+
+    const auto inspector = reinterpret_cast<MatrixInspector*>(&original);
+    TEST_ASSERT_EQUAL(0, inspector->rows);
+    TEST_ASSERT_EQUAL(0, inspector->cols);
+    TEST_ASSERT_NULL(inspector->data.get());
 }
 
 TEST(test_AdditionOperatorShouldSumMatrices) {
