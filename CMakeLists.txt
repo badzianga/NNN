@@ -10,6 +10,8 @@ add_library(NNN STATIC
         include/layer.hpp
         src/neural_network.cpp
         include/neural_network.hpp
+        src/activation_function.cpp
+        include/activation_function.hpp
 )
 target_include_directories(NNN PRIVATE include)
 
@@ -24,3 +26,7 @@ target_link_libraries(test_layer PRIVATE NNN)
 add_executable(test_neural_network tests/test_neural_network.cpp)
 target_include_directories(test_neural_network PRIVATE include external)
 target_link_libraries(test_neural_network PRIVATE NNN)
+
+add_executable(test_activation_function tests/test_activation_function.cpp)
+target_include_directories(test_activation_function PRIVATE include external)
+target_link_libraries(test_activation_function PRIVATE NNN)
