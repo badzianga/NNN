@@ -2,6 +2,7 @@
 extern "C" {
 #include "toasty.h"
 }
+#include "activation_function.hpp"
 #include "neural_network.hpp"
 
 using namespace nnn;
@@ -56,9 +57,15 @@ TEST(test_PredictionShouldCalculateOutputMatrixProperly) {
 
     Matrix output = nn.predict(input);
 
+    Matrix withSigmoid(1, 1);
+    withSigmoid(0, 0) = 4.f;
+    withSigmoid = ActivationFunction::sigmoid(withSigmoid);
+    withSigmoid(0, 0) = 2.f * 3.f * withSigmoid(0, 0) + 4.f;
+    withSigmoid = ActivationFunction::sigmoid(withSigmoid);
+
     TEST_ASSERT_EQUAL(1, output.getRows());
     TEST_ASSERT_EQUAL(1, output.getCols());
-    TEST_ASSERT_EQUAL(28.f, output(0, 0));
+    TEST_ASSERT_EQUAL_FLOAT(withSigmoid(0, 0), output(0, 0));
 }
 
 int main() {

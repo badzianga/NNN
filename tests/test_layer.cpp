@@ -2,6 +2,7 @@
 extern "C" {
 #include "toasty.h"
 }
+#include "activation_function.hpp"
 #include "layer.hpp"
 
 using namespace nnn;
@@ -50,8 +51,12 @@ TEST(test_ForwardMethowShouldWorkProperly) {
     TEST_ASSERT_EQUAL(1, output.getRows());
     TEST_ASSERT_EQUAL(4, output.getCols());
 
+    Matrix withSigmoid(1, 1);
+    withSigmoid(0, 0) = 3.f;
+    withSigmoid = ActivationFunction::sigmoid(withSigmoid);
+
     for (int j = 0; j < 4; ++j) {
-        TEST_ASSERT_EQUAL_FLOAT(3.f, output(0, j));
+        TEST_ASSERT_EQUAL_FLOAT(withSigmoid(0, 0), output(0, j));
     }
 }
 
