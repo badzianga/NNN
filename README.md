@@ -1,0 +1,80 @@
+# NNN
+
+Nice Neural Network is a small library for creating simple artificial neural networks in C++.
+Unlike possible implementation that use explicit `Neuron` class, this library is based on matrix operations,
+resulting in faster computations and reduced memory usage.
+
+## Build Instructions
+A `CMakeLists.txt` file is provided for building the project.
+To build the library, run the following commands:
+
+```bash
+mkdir build && cd build
+cmake ..
+make NNN
+```
+
+## Usage
+
+```C++
+#include "neural_network.hpp"
+
+int main() {
+    // Define a network with 4 layers:
+    // input (2 neurons), 1st hidden (5 neurons), 2nd hidden (4 neurons), output (3 neurons)
+    nnn::NeuralNetwork nn({ 2, 5, 4, 3 });
+    
+    // Randomize weights and biases (range (-1; 1))
+    nn.randomize(-1.f, 1.f);
+
+    // Create an input matrix (1x2)
+    nnn::Matrix input(1, 2);
+    
+    // Fill input matrix with values
+    input(0, 0) = 0.5f;
+    input(0, 1) = 0.8f;
+
+    // Perform a forward pass
+    nnn::Matrix output = nn.predict(input);
+    
+    return 0;
+}
+```
+
+## Components
+
+### Matrix (`matrix.hpp`)
+
+A fundamental data structure for handling numerical operations.
+
+```C++
+nnn:Matrix mat1(3, 3);
+nnn:Matrix mat2(3, 3);
+nnn:Matrix result = mat1 + mat2;
+```
+
+### Layer (`layer.hpp`)
+
+Represents a single layer in the neural network, containing weights and biases.
+
+### Activation Functions (`activation_function.hpp`)
+
+Includes a static methods for applying activation functions.
+
+```C++
+nnn:Matrix activated = nnn::ActivationFunction::sigmoid(mat1);
+```
+
+### Neural Network (`neural_network.hpp`)
+
+A simple feedforward neural network implementation.
+
+## Future Improvements
+
+Currently, the library is work-in-progress.
+Below is the list of improvements which will be added soon:
+
+- Implement backpropagation and genetic algorithm for training
+- Add more activation functions
+- Apply different activation function for each layer
+- Write full documentation
