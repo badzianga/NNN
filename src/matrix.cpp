@@ -133,6 +133,19 @@ Matrix Matrix::operator*(const Matrix& other) const {
     return result;
 }
 
+Matrix Matrix::operator*(float scalar) const {
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result(i, j) = (*this)(i, j) * scalar;
+        }
+    }
+
+    return result;
+}
+
+
 float Matrix::operator()(int row, int col) const {
     if (row < 0 || row >= rows) {
         throw std::runtime_error("Matrix::operator(): row index out of range");
