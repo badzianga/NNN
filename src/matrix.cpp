@@ -83,6 +83,36 @@ Matrix& Matrix::operator+=(const Matrix& other) {
     return *this;
 }
 
+Matrix Matrix::operator-(const Matrix& other) const {
+    if (rows != other.rows || cols != other.cols) {
+        throw std::runtime_error("Matrix::operator-: matrix dimensions do not match");
+    }
+
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result(i, j) = (*this)(i, j) - other(i, j);
+        }
+    }
+
+    return result;
+}
+
+Matrix& Matrix::operator-=(const Matrix& other) {
+    if (rows != other.rows || cols != other.cols) {
+        throw std::runtime_error("Matrix::operator-=: matrix dimensions do not match");
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            (*this)(i, j) -= other(i, j);
+        }
+    }
+
+    return *this;
+}
+
 Matrix Matrix::operator*(const Matrix& other) const {
     if (cols != other.rows) {
         throw std::runtime_error("Matrix::operator*: invalid matrix dimensions");

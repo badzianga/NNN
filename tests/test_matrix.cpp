@@ -69,6 +69,33 @@ TEST(test_SizeGettersShouldReturnCorrectValues) {
     TEST_ASSERT_EQUAL(2, matrix.getCols());
 }
 
+TEST(test_ConstructorWithVectorShouldCreateNewMatrixWithCopiedValues) {
+    Matrix matrix(2, 3, { 0.f, 1.f, 2.f, 3.f, 4.f, 5.f });
+
+    Matrix expected(2, 3);
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            expected(i, j) = static_cast<float>(i * 3 + j);
+        }
+    }
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            TEST_ASSERT_EQUAL_FLOAT(expected(i, j), matrix(i, j));
+        }
+    }
+}
+
+TEST(test_ConstructionOfMatrixWithVectorShouldFailWhenSizeIsInvalid) {
+    try {
+        Matrix matrix(2, 3, { 0.f, 1.f, 2.f });
+    } catch (std::runtime_error& e) {
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
+}
+
 TEST(test_CopyConstructorShouldCreateExactCopyOfMatrix) {
     Matrix original(1, 2);
     original(0, 0) = 1.f;
@@ -156,7 +183,7 @@ TEST(test_AdditionOperatorShouldSumMatrices) {
     TEST_ASSERT_EQUAL_FLOAT(a(0, 1) + b(0, 1), c(0, 1));
 }
 
-TEST(test_AdditionOperatorShouldThrowErrorIfDimensionsDoNotMatch) {
+TEST(test_AdditionOperatorShouldThrowErrorWhenDimensionsDoNotMatch) {
     Matrix a(1, 2);
     Matrix b(3, 4);
 
@@ -186,12 +213,70 @@ TEST(test_AdditionAssignmentOperatorShouldAddToMatrix) {
     TEST_ASSERT_EQUAL_FLOAT(b(0, 1), a(0, 1));
 }
 
-TEST(test_AdditionAssignmentOperatorShouldThrowErrorIfDimensionsDoNotMatch) {
+TEST(test_AdditionAssignmentOperatorShouldThrowErrorWhenDimensionsDoNotMatch) {
     Matrix a(1, 2);
     Matrix b(3, 4);
 
     try {
         a += b;
+    } catch (std::runtime_error& e) {
+        // if error is caught, end test with success, else fail at next assertion
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
+}
+
+TEST(test_SubtractionOperatorShouldSubtractMatrices) {
+    Matrix a(1, 2);
+    a.fill(2.f);
+    Matrix b(1, 2);
+    b.fill(1.f);
+
+    Matrix c = a - b;
+
+    TEST_ASSERT_EQUAL(1, a.getRows());
+    TEST_ASSERT_EQUAL(2, a.getCols());
+
+    TEST_ASSERT_EQUAL_FLOAT(1.f, c(0, 0));
+    TEST_ASSERT_EQUAL_FLOAT(1.f, c(0, 1));
+}
+
+TEST(test_SubtractionOperatorShouldThrowErrorWhenDimensionsDoNotMatch) {
+    Matrix a(1, 2);
+    Matrix b(3, 4);
+
+    try {
+        Matrix c = a - b;
+    } catch (std::runtime_error& e) {
+        // if error is caught, end test with success, else fail at next assertion
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
+}
+
+TEST(test_SubtractionAssignmentOperatorShouldSubtractFromMatrix) {
+    Matrix a(1, 2);
+    a.fill(2.f);
+    Matrix b(1, 2);
+    b.fill(1.f);
+
+    b -= a;
+
+    TEST_ASSERT_EQUAL(1, b.getRows());
+    TEST_ASSERT_EQUAL(2, b.getCols());
+
+    TEST_ASSERT_EQUAL_FLOAT(-1.f, b(0, 0));
+    TEST_ASSERT_EQUAL_FLOAT(-1.f, b(0, 1));
+}
+
+TEST(test_SubtractionAssignmentOperatorShouldThrowErrorWhenDimensionsDoNotMatch) {
+    Matrix a(1, 2);
+    Matrix b(3, 4);
+
+    try {
+        a -= b;
     } catch (std::runtime_error& e) {
         // if error is caught, end test with success, else fail at next assertion
         (void) e;
@@ -222,7 +307,7 @@ TEST(test_MultiplicationOperatorShouldMultiplyMatrices) {
     TEST_ASSERT_EQUAL_FLOAT(21.f, c(0, 2));
 }
 
-TEST(test_MultiplicationOperatorShouldThrowErrorIfDimensionsAreInvalid) {
+TEST(test_MultiplicationOperatorShouldThrowErrorWhenDimensionsAreInvalid) {
     Matrix a(1, 2);
     Matrix b(3, 2);
 
@@ -262,33 +347,6 @@ TEST(test_TranspositionShouldCreateNewTransposedMatrix) {
             TEST_ASSERT_EQUAL_FLOAT(original(i, j), transposed(j, i));
         }
     }
-}
-
-TEST(test_ConstructorWithVectorShouldCreateNewMatrixWithCopiedValues) {
-    Matrix matrix(2, 3, { 0.f, 1.f, 2.f, 3.f, 4.f, 5.f });
-
-    Matrix expected(2, 3);
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            expected(i, j) = static_cast<float>(i * 3 + j);
-        }
-    }
-
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            TEST_ASSERT_EQUAL_FLOAT(expected(i, j), matrix(i, j));
-        }
-    }
-}
-
-TEST(test_ConstructionOfMatrixWithVectorShouldFailWhenSizeIsInvalid) {
-    try {
-        Matrix matrix(2, 3, { 0.f, 1.f, 2.f });
-    } catch (std::runtime_error& e) {
-        (void) e;
-        return;
-    }
-    TEST_ASSERT_TRUE(false);
 }
 
 int main() {

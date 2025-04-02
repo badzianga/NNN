@@ -17,6 +17,8 @@ public:
     Matrix& operator=(Matrix&& other) noexcept;
     Matrix operator+(const Matrix& other) const;
     Matrix& operator+=(const Matrix& other);
+    Matrix operator-(const Matrix& other) const;
+    Matrix& operator-=(const Matrix& other);
     Matrix operator*(const Matrix& other) const;
     float operator()(int row, int col) const;
     float& operator()(int row, int col);
