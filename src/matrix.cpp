@@ -12,6 +12,14 @@ Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols), data(std::make_uniq
     std::fill_n(data.get(), rows * cols, 0.f);
 }
 
+Matrix::Matrix(int rows, int cols, const std::vector<float>& values) : rows(rows), cols(cols) {
+    if (values.size() != rows * cols) {
+        throw std::runtime_error("Matrix::Matrix: `values.size()` should be the same as `rows * cols`");
+    }
+    data = std::make_unique<float[]>(rows * cols);
+    std::copy_n(values.begin(), rows * cols, data.get());
+}
+
 Matrix::Matrix(const Matrix& other) : rows(other.rows), cols(other.cols) {
     data = std::make_unique<float[]>(rows * cols);
     std::copy_n(other.data.get(), rows * cols, data.get());

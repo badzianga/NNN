@@ -251,7 +251,7 @@ TEST(test_TranspositionShouldCreateNewTransposedMatrix) {
     Matrix original(2, 3);
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < 3; ++j) {
-            original(i, j) = static_cast<float>(i * 2 + j);
+            original(i, j) = static_cast<float>(i * 3 + j);
         }
     }
 
@@ -262,6 +262,33 @@ TEST(test_TranspositionShouldCreateNewTransposedMatrix) {
             TEST_ASSERT_EQUAL_FLOAT(original(i, j), transposed(j, i));
         }
     }
+}
+
+TEST(test_ConstructorWithVectorShouldCreateNewMatrixWithCopiedValues) {
+    Matrix matrix(2, 3, { 0.f, 1.f, 2.f, 3.f, 4.f, 5.f });
+
+    Matrix expected(2, 3);
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            expected(i, j) = static_cast<float>(i * 3 + j);
+        }
+    }
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            TEST_ASSERT_EQUAL_FLOAT(expected(i, j), matrix(i, j));
+        }
+    }
+}
+
+TEST(test_ConstructionOfMatrixWithVectorShouldFailWhenSizeIsInvalid) {
+    try {
+        Matrix matrix(2, 3, { 0.f, 1.f, 2.f });
+    } catch (std::runtime_error& e) {
+        (void) e;
+        return;
+    }
+    TEST_ASSERT_TRUE(false);
 }
 
 int main() {

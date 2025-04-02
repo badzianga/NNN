@@ -1,6 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 #include <memory>
+#include <vector>
 
 namespace nnn {
 
@@ -8,6 +9,7 @@ class Matrix {
 public:
     Matrix();
     Matrix(int rows, int cols);
+    Matrix(int rows, int cols, const std::vector<float>& values);
     Matrix(const Matrix& other);
     Matrix(Matrix&& other) noexcept;
 
