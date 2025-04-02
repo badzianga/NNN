@@ -54,15 +54,16 @@ Matrix & Matrix::operator=(Matrix&& other) noexcept {
 }
 
 Matrix Matrix::operator+(const Matrix& other) const {
-    if (rows != other.rows || cols != other.cols) {
-        throw std::runtime_error("Matrix::operator+: matrix dimensions do not match");
+    if (cols != other.cols) {
+        throw std::runtime_error("Matrix::operator+: matrix columns do not match");
     }
 
-    Matrix result(rows, cols);
+    const int newRows = rows > other.rows ? rows : other.rows;
+    Matrix result(newRows, cols);
 
-    for (int i = 0; i < rows; ++i) {
+    for (int i = 0; i < newRows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            result(i, j) = (*this)(i, j) + other(i, j);
+            result(i, j) = (*this)(i % rows, j) + other(i % other.rows, j);
         }
     }
 
@@ -70,13 +71,19 @@ Matrix Matrix::operator+(const Matrix& other) const {
 }
 
 Matrix& Matrix::operator+=(const Matrix& other) {
-    if (rows != other.rows || cols != other.cols) {
-        throw std::runtime_error("Matrix::operator+=: matrix dimensions do not match");
+    if (cols != other.cols) {
+        throw std::runtime_error("Matrix::operator+=: matrix columns do not match");
+    }
+
+    if (rows < other.rows) {
+        throw std::runtime_error(
+            "Matrix::operator+=: Left hand-side rows should be greater or equal than right hand-side rows"
+        );
     }
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            (*this)(i, j) += other(i, j);
+            (*this)(i, j) += other(i % other.rows, j);
         }
     }
 
