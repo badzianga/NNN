@@ -247,6 +247,23 @@ TEST(test_FillMethodShouldFillMatrixWithValue) {
     }
 }
 
+TEST(test_TranspositionShouldCreateNewTransposedMatrix) {
+    Matrix original(2, 3);
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            original(i, j) = static_cast<float>(i * 2 + j);
+        }
+    }
+
+    Matrix transposed = original.transposed();
+
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            TEST_ASSERT_EQUAL_FLOAT(original(i, j), transposed(j, i));
+        }
+    }
+}
+
 int main() {
     return RunTests();
 }

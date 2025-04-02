@@ -21,6 +21,7 @@ public:
 
     [[nodiscard]] int getRows() const;
     [[nodiscard]] int getCols() const;
+    [[nodiscard]] Matrix transposed() const;
 
     void fill(float value);
     void randomize(float low, float high);

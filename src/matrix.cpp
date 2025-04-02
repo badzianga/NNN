@@ -124,6 +124,16 @@ int Matrix::getCols() const {
     return cols;
 }
 
+Matrix Matrix::transposed() const {
+    Matrix result(cols, rows);
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result(j, i) = (*this)(i, j);
+        }
+    }
+    return result;
+}
+
 void Matrix::fill(float value) {
     std::fill_n(data.get(), rows * cols, value);
 }
