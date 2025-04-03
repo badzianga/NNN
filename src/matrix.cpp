@@ -1,8 +1,8 @@
-#include "matrix.hpp"
 #include <algorithm>
 #include <cassert>
-#include <cstdlib>
-#include <ctime>
+#include <iostream>
+#include "matrix.hpp"
+#include <random>
 
 namespace nnn {
 
@@ -197,12 +197,23 @@ void Matrix::fill(float value) {
 }
 
 void Matrix::randomize(float low, float high) {
-    std::srand(std::time(nullptr));
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution dis(low, high);
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            (*this)(i, j) = low + (static_cast<float>(rand()) / RAND_MAX) * (high - low);
+            (*this)(i, j) = dis(gen);
         }
+    }
+}
+
+void Matrix::print() const {
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            std::cout << (*this)(i, j) << ' ';
+        }
+        std::cout << '\n';
     }
 }
 

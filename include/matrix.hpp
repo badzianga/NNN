@@ -27,9 +27,11 @@ public:
     [[nodiscard]] int getRows() const;
     [[nodiscard]] int getCols() const;
     [[nodiscard]] Matrix transposed() const;
+    [[nodiscard]] Matrix elementwiseMultiply(const Matrix& other) const;
 
     void fill(float value);
     void randomize(float low, float high);
+    void print() const;
 
 private:
     int rows;
