@@ -9,12 +9,13 @@ namespace nnn {
 class NeuralNetwork {
 public:
     explicit NeuralNetwork(const std::vector<int>& layerSizes);
-    NeuralNetwork(const NeuralNetwork&) = delete;
-    NeuralNetwork(const NeuralNetwork&&) = delete;
-    NeuralNetwork& operator=(const NeuralNetwork&) = delete;
-    NeuralNetwork& operator=(const NeuralNetwork&&) = delete;
+    NeuralNetwork(const NeuralNetwork& other);
+    NeuralNetwork(NeuralNetwork&& other) noexcept;
+    NeuralNetwork& operator=(const NeuralNetwork& other);
+    NeuralNetwork& operator=(NeuralNetwork&& other) noexcept;
     Matrix predict(const Matrix& input);
     void randomize(float low, float high);
+    void train(const Matrix& X, const Matrix& Y, int epochs, float learningRate);
 private:
     std::vector<Layer> layers;
 };

@@ -8,10 +8,10 @@ class Layer {
 public:
     Layer();
     Layer(int inputSize, int outputSize);
-    Layer(const Layer& other) = delete;
+    Layer(const Layer& other);
     Layer(Layer&& other) noexcept;
-    Layer& operator=(const Layer& other) = delete;
-    Layer& operator=(const Layer&& other) = delete;
+    Layer& operator=(const Layer& other);
+    Layer& operator=(Layer&& other) noexcept;
     [[nodiscard]] Matrix forward(const Matrix& input) const;
     void randomize(float low, float high);
 

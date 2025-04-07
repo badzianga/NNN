@@ -1,4 +1,6 @@
 #define TOASTY_IMPLEMENTATION
+#include <iostream>
+
 extern "C" {
 #include "toasty.h"
 }
@@ -69,5 +71,36 @@ TEST(test_PredictionShouldCalculateOutputMatrixProperly) {
 }
 
 int main() {
+    srand(time(nullptr));
+    NeuralNetwork nn({ 2, 3, 1 });
+    nn.randomize(-1.f, 1.f);
+
+    Matrix inputs(4, 2, {
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 1,
+    });
+    Matrix outputs(4, 1, {
+        0,
+        1,
+        1,
+        0,
+    });
+
+    std::cout << "Before training:\n";
+    Matrix predictions = nn.predict(inputs);
+    for (int i = 0; i < inputs.getRows(); ++i) {
+        std::cout << inputs(i, 0) << " ^ " << inputs(i, 1) << " = " << predictions(i, 0) << '\n';
+    }
+
+    nn.train(inputs, outputs, 250, 0.1);
+
+    std::cout << "After training:\n";
+    predictions = nn.predict(inputs);
+    for (int i = 0; i < inputs.getRows(); ++i) {
+        std::cout << inputs(i, 0) << " ^ " << inputs(i, 1) << " = " << predictions(i, 0) << '\n';
+    }
+
     return RunTests();
 }

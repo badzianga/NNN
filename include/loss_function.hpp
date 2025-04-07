@@ -12,7 +12,7 @@ public:
     LossFunction& operator=(const LossFunction&) = delete;
     LossFunction& operator=(LossFunction&&) = delete;
 
-    static Matrix meanSquaredError(const Matrix& predictions, const Matrix& targets);
+    static float meanSquaredError(const Matrix& predictions, const Matrix& targets);
 };
 
 }
