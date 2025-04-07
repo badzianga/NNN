@@ -14,8 +14,8 @@ cmake ..
 make NNN
 ```
 
-## Usage
-
+## Example
+The code below shows an example of training a model to behave like an XOR gate.
 ```C++
 #include "neural_network.hpp"
 
@@ -41,6 +41,57 @@ int main() {
 }
 ```
 
+## Example
+The code below show 
+```C++
+#include "neural_network.hpp"
+
+int main() {
+    srand(time(nullptr));
+    
+    // Define a network with 4 layers:
+    // input (2 neurons), 1st hidden (5 neurons), 2nd hidden (4 neurons), output (3 neurons)
+    NeuralNetwork nn({ 2, 3, 1 });
+    
+    // Randomize weights and biases (range (-1; 1))
+    nn.randomize(-1.f, 1.f);
+    
+    // Create an input matrix (4 samples, 2 inputs each)
+    Matrix inputs(4, 2, {
+        0, 0,
+        0, 1,
+        1, 0,
+        1, 1,
+    });
+    
+    // Create a target matrix (4 samples, 1 output each)
+    Matrix outputs(4, 1, {
+        0,
+        1,
+        1,
+        0,
+    });
+    
+    // Print behavior of the model before training
+    std::cout << "Before training:\n";
+    Matrix predictions = nn.predict(inputs);
+    for (int i = 0; i < inputs.getRows(); ++i) {
+        std::cout << inputs(i, 0) << " ^ " << inputs(i, 1) << " = " << predictions(i, 0) << '\n';
+    }
+    
+    // Train the model using genetic algorithm (250 epochs, 0.1 mutation chance)
+    nn.train(inputs, outputs, 250, 0.1);
+
+    // Print behavior of the model after training    
+    std::cout << "After training:\n";
+    predictions = nn.predict(inputs);
+    for (int i = 0; i < inputs.getRows(); ++i) {
+        std::cout << inputs(i, 0) << " ^ " << inputs(i, 1) << " = " << predictions(i, 0) << '\n';
+    }
+    
+    return 0;
+}
+```
 ## Components
 
 ### Matrix (`matrix.hpp`)
@@ -74,7 +125,7 @@ A simple feedforward neural network implementation.
 Currently, the library is work-in-progress.
 Below is the list of improvements which will be added soon:
 
-- Implement backpropagation and genetic algorithm for training
+- Implement backpropagation
 - Add more activation functions
 - Apply different activation function for each layer
 - Write full documentation
